@@ -11,6 +11,10 @@ app.get("/", (req, res) => {
     return res.json("Hi there...")
 })
 
+//User authentication Route
+const userRoute = require("./routes/auth");
+app.use("/api/users", userRoute);
+
 mongoose.connect(process.env.DB_STRING, {useNewUrlParser: true});
 mongoose.connection
 .once("open", () => console.log("Connected"))
