@@ -18,9 +18,9 @@ router.get("/login", async (req, res) => {
             // checking user email already exists or not
             const userExists = await user.findOne({ "user_id": decodeValue.user_id });
             if (!userExists) {
-            newUserData(decodeValue, req, res);
+              newUserData(decodeValue, req, res);
             } else {
-            return res.send("Need to update")
+              updateUserData(decodeValue, req, res);
             }
         }
 
@@ -47,5 +47,24 @@ const newUserData = async (decodeValue, req, res) => {
       res.status(400).send({ success: false, msg: error });
     }
   }
+
+const updateUserData = async (decodeValue, req, res) => {
+  const filter = { user_id: decodeValue.user_id };
+  const options = {
+    upsert: true,
+    new: true,
+  };
+
+  try {
+    const result = await user.findOneAndUpdate(
+      filter,
+      {auth_time: decodeValue.auth_time },
+      options
+    );
+    res.status(200).send({ user: result });
+  } catch (error) {
+    res.status(400).send({ success: false, msg: error });
+  }
+};
 
 module.exports = router;
