@@ -6,12 +6,17 @@ import {GoogleAuthProvider, getAuth, signInWithPopup} from 'firebase/auth';
 import {FcGoogle} from 'react-icons/fc';
 import { useNavigate } from 'react-router-dom';
 
+import { useStateValue } from '../context/StateProvider';
+import { validateUser } from '../api';
+import { actionType } from "../context/reducer";
+
 const Login = ({setAuth}) => {
 
   const firebaseAuth = getAuth(app);
   const provider = new GoogleAuthProvider();
 
   const navigate = useNavigate();
+  const [{ user }, dispatch] = useStateValue();
 
   const loginWithGoogle = async () => {
     await signInWithPopup(firebaseAuth, provider).then((userCred) => {
@@ -23,12 +28,21 @@ const Login = ({setAuth}) => {
          if(userCred){
           
           userCred.getIdToken().then((token) =>{
-            console.log(token);
-        })
+            validateUser(token).then((data) => {
+              dispatch ({
+                type: actionType.SET_USER,
+                user: data,
+               })
+            })
+          })
           navigate("/" ,{replace:true})
          }
          else{
           setAuth(false);
+          dispatch ({
+            type: actionType.SET_USER,
+            user: null,
+           })
           navigate("/login")
 
          }
