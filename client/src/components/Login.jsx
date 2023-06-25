@@ -60,7 +60,13 @@ const Login = ({setAuth}) => {
 
   return (
     <div className='relative w-screen h-screen'>
-
+      <video src={LoginBg}
+       type ="video/mp4"
+       autoPlay
+       muted
+       loop
+       className='w-full h-full object-cover'
+       />
       <div className='absolute inset-0 bg-darkOverlay flex items-center justify-center p-4'>
         <div className='w-full md:w-375 p-4 bg-lightOverlay shadow-2xl rounded-md backdrop-blur-md flex flex-col justify-center'>
           <div className='flex items-center justify-center gap-2 px-4 py-2 rounded-md bg-cardOverlay
