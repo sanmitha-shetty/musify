@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
-import { Home, Login } from "./components";
+import { Dashboard, Home, Login } from "./components";
 import { app } from "./config/firebase.config";
 
 import { getAuth } from "firebase/auth";
