@@ -32,4 +32,21 @@ router.get("/getOne/:id", async (req, res) => {
     }
   });
 
+
+  //Find All Albums
+router.get("/getAll", async (req, res) =>{
+    const options ={ 
+        sort: ({
+            createdAt: 1 
+        }),
+    };
+    //options didnt work
+    const data = await album.find().sort( { createdAt: 1 } )
+    if (data) {
+       return res.status(200).send({ success: true, album: data });
+      } else {
+        return res.status(400).send({ success: false, msg: "No Data Found" });
+      }
+
+});
 module.exports = router
