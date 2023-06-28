@@ -60,4 +60,28 @@ router.delete("/delete/:id", async (req, res) => {
       }
 })
 
+router.put("/update/:id", async (req, res) =>{
+
+  const filter = { _id: req.params.id };
+  const options = {
+    upsert: true,
+    new: true,
+  };
+
+  try {
+   const result = await artist.findOneAndUpdate(filter, 
+    {
+      name: req.body.name,
+      imageURL: req.body.imageURL,
+      twitter: req.body.twitter,
+      instagram: req.body.instagram,
+    }, 
+    options);
+
+    return res.status(200).send({success: true, data: result});
+  } catch (error) {
+    return res.status(400).send({ success: false, msg: error });
+  }
+});
+
 module.exports = router;
