@@ -82,5 +82,16 @@ router.put("/update/:id", async (req, res) =>{
     }
   });
   
+//Delete Song
+router.delete("/delete/:id", async (req, res) => {
+const filter = {_id: req.params.id};
+
+const result = await song.deleteOne(filter);
+if (result) {
+        return res.status(200).send({ success: true, msg: "Data deleted successfully", data: result });
+    } else {
+        return res.status(400).send({ success: false, msg: "No Data Found" });
+    }
+});
 
 module.exports = router
