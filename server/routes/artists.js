@@ -19,4 +19,45 @@ router.post("/save", async (req, res) => {
       }
 });
 
+router.get("/getOne/:id", async (req, res) => {
+    const filter = { _id: req.params.id };
+  
+    const data = await artist.findOne(filter);
+  
+    if (data) {
+      return res.status(200).send({ success: true, artist: data });
+    } else {
+     return res.status(400).send({ success: false, msg: "No Data Found" });
+    }
+  });
+
+
+router.get("/getAll", async (req, res) =>{
+    const options ={ 
+        sort: ({
+            createdAt: 1 
+        }),
+    };
+    //options didnt work
+    const data = await artist.find().sort( { createdAt: 1 } )
+    if (data) {
+       return res.status(200).send({ success: true, artist: data });
+      } else {
+        return res.status(400).send({ success: false, msg: "No Data Found" });
+      }
+
+});
+
+
+router.delete("/delete/:id", async (req, res) => {
+  const filter = {_id: req.params.id};
+
+ const result = await artist.deleteOne(filter);
+ if (result) {
+       return res.status(200).send({ success: true, msg: "Data deleted successfully", data: result });
+      } else {
+        return res.status(400).send({ success: false, msg: "No Data Found" });
+      }
+})
+
 module.exports = router;
