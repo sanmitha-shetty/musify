@@ -49,4 +49,39 @@ router.get("/getAll", async (req, res) =>{
       }
 
 });
+
+//Update Album
+router.put("/update/:id", async (req, res) =>{
+
+    const filter = { _id: req.params.id };
+    const options = {
+      upsert: true,
+      new: true,
+    };
+  
+    try {
+     const result = await album.findOneAndUpdate(filter, 
+      {
+        name: req.body.name,
+        imageURL: req.body.imageURL,
+      }, 
+      options);
+  
+      return res.status(200).send({success: true, data: result});
+    } catch (error) {
+      return res.status(400).send({ success: false, msg: error });
+    }
+  });
+
+  //Delete Album
+router.delete("/delete/:id", async (req, res) => {
+    const filter = {_id: req.params.id};
+  
+   const result = await album.deleteOne(filter);
+   if (result) {
+         return res.status(200).send({ success: true, msg: "Data deleted successfully", data: result });
+        } else {
+          return res.status(400).send({ success: false, msg: "No Data Found" });
+        }
+  })
 module.exports = router
