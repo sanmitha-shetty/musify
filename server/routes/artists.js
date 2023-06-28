@@ -3,6 +3,7 @@ const router = require("express").Router();
 //Our artist schema model
 const artist = require("../models/artist");
 
+ //Add Artist
 router.post("/save", async (req, res) => {
     
     const newArtist = artist({
@@ -19,6 +20,7 @@ router.post("/save", async (req, res) => {
       }
 });
 
+//Find One Artist
 router.get("/getOne/:id", async (req, res) => {
     const filter = { _id: req.params.id };
   
@@ -31,7 +33,7 @@ router.get("/getOne/:id", async (req, res) => {
     }
   });
 
-
+//Find All Artists
 router.get("/getAll", async (req, res) =>{
     const options ={ 
         sort: ({
@@ -48,7 +50,7 @@ router.get("/getAll", async (req, res) =>{
 
 });
 
-
+//Delete Artist
 router.delete("/delete/:id", async (req, res) => {
   const filter = {_id: req.params.id};
 
@@ -60,6 +62,7 @@ router.delete("/delete/:id", async (req, res) => {
       }
 })
 
+//Update Artist
 router.put("/update/:id", async (req, res) =>{
 
   const filter = { _id: req.params.id };
