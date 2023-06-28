@@ -5,13 +5,15 @@ import { actionType } from '../context/reducer';
 import { FaUsers } from 'react-icons/fa';
 import { GiLoveSong, GiMusicalNotes } from "react-icons/gi";
 import { RiUserStarFill } from "react-icons/ri";
+import { bgColors } from '../utilis/styles';
+
 
 export const DashboardCard = ({ icon, name, count }) => {
-  //const bg_color = bgColors[parseInt(Math.random() * bgColors.length)];
+  const bg_color = bgColors[parseInt(Math.random() * bgColors.length)];
 
   return (
     <div
-      //style={{ background: `${bg_color}` }}
+      style={{ background: `${bg_color}` }}
       className={` p-4 w-40 gap-3 h-auto rounded-lg shadow-md flex flex-col items-center justify-center`}
     >
       {icon}
