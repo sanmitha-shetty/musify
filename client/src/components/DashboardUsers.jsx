@@ -1,12 +1,14 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useStateValue } from '../context/StateProvider';
 import {motion} from "framer-motion";
 import moment from 'moment/moment';
 
 export const DashboardUserCard = ({data, index}) =>{
   
+  const [{user}, dispatch] = useStateValue();
+  const [isUserRoleUpdated, setisUserRoleUpdated] = useState(false);
   const createdAt = moment(new Date(data.createdAt)).format("MMMM Do YYYY");
-
+  
   return(
     <motion.div
     className= 'relative w-full rounded-md flex items-center justify-between py-4 bg-lightOverlay cursor-pointer hover:shadow-md'>
@@ -20,7 +22,43 @@ export const DashboardUserCard = ({data, index}) =>{
       <p className='text-base text-textColor w-275 min-w-[160px] text-center'>{data.email}</p>
       <p className='text-base text-textColor w-275 min-w-[160px] text-center'>{data.email_verfied ? "True" : "False"}</p>
       <p className='text-base text-textColor w-275 min-w-[160px] text-center'>{createdAt}</p>
-      <p className='text-base text-textColor w-275 min-w-[160px] text-center'>{data.role}</p>
+      
+      <div className=' w-275 min-w-[160px] text-center flex items-center justify-center gap-6 relative'>
+
+      <p className='text-base text-textColor text-center'>{data.role}</p>
+
+      {
+        data._id !== user?.user._id && (
+          <motion.p  whileTap ={{scale: 0.75}} className='text-[10px] font-semibold text-textColor px-1 bg-purple-200 rounded-sm hover:shadow-md' onClick={() => setisUserRoleUpdated(true)}>
+          {data.role ==="admin"? "Member" :"Admin" }
+          </motion.p>
+        )
+      }
+
+      {isUserRoleUpdated && (
+        <motion.div 
+          initial={{opacity: 0, scale:0.5}}
+          animate={{opacity: 1, scale:1}}
+          exit={{opacity: 0, scale:0.5}}
+          className='absolute z-10 top-6 right-4 p-4 flex items-start flex-col gap-4 bg-white shadow-xl rounded-md '>
+          <p className=' text-textColor text-[12px] font-semibold '>Are you sure, do you want to mark the user as  
+          <span> {data.role ==="admin"? "Member" : "Admin" } </span> ?
+          </p>
+
+          <div className='flex items-center gap-4'>
+            <motion.button whileTap={{scale : 0.75}} className='outline-none border-none text-sm px-4 py-1 rounded-md bg-blue-200 text-black hover:shadow-md'>
+              Yes
+            </motion.button>
+
+            <motion.button whileTap={{scale : 0.75}} className='outline-none border-none text-sm px-4 py-1 rounded-md bg-red-200 text-black hover:shadow-md' onClick={() => setisUserRoleUpdated(false)} >
+              No
+            </motion.button>
+          </div>
+
+        </motion.div>
+      )}
+
+      </div>
     </motion.div>
   )
 }
