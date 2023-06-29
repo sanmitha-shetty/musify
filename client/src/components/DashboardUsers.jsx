@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 import { useStateValue } from '../context/StateProvider';
 import {motion} from "framer-motion";
+import {MdDelete} from "react-icons/md";
 import moment from 'moment/moment';
-import { changingUserRole, getAllUsers } from '../api';
+import { changingUserRole, getAllUsers, removeUser } from '../api';
 import {actionType} from "../context/reducer"
 
 export const DashboardUserCard = ({data, index}) =>{
@@ -23,10 +24,29 @@ export const DashboardUserCard = ({data, index}) =>{
       }
     })
   }
+
+  const deleteUser = (userId) =>{
+    removeUser(userId).then((res) => {
+      if (res){
+        getAllUsers().then((data) =>{
+          dispatch({
+            type: actionType.SET_ALL_USERS,
+            allUsers: data.data
+          })
+        })
+      }
+    })
+  }
   
   return(
     <motion.div key={index}
     className= 'relative w-full rounded-md flex items-center justify-between py-4 bg-lightOverlay cursor-pointer hover:shadow-md'>
+    
+    {data._id !== user?.user._id &&(
+          <motion.div whileTap={{scale: 0.75}} className='absolute left-4 w-8 h-8 rounded-md flex items-center justify-center bg-gray-200' onClick={() => deleteUser(data._id)}>
+          <MdDelete  className='text-xl text-red-400 hover:text-red-500'/>
+        </motion.div>
+    )}
 
       {/* user image */}
       <div className='w-275 min-w-[160px] flex items-center justify-center'>
@@ -62,7 +82,7 @@ export const DashboardUserCard = ({data, index}) =>{
 
           <div className='flex items-center gap-4'>
             <motion.button whileTap={{scale : 0.75}} className='outline-none border-none text-sm px-4 py-1 rounded-md bg-blue-200 text-black hover:shadow-md'
-            onClick={() =>updateUserRole(data._id, data.role =="admin"? "member": "admin")}>
+            onClick={() =>updateUserRole(data._id, data.role ==="admin"? "member": "admin")}>
               Yes
             </motion.button>
 

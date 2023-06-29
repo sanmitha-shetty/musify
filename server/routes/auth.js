@@ -97,4 +97,15 @@ router.put("/updateRole/:userId", async (req, res) =>{
   }
 })
 
+//Delete user 
+router.delete("/deleteUser/:userId", async (req, res) => {
+  const filter = {_id: req.params.userId};
+
+ const result = await user.deleteOne(filter);
+ if (result.deletedCount === 1) {
+       return res.status(200).send({ success: true, msg: "User Removed" });
+      } else {
+        return res.status(400).send({ success: false, msg: "No Data Found" });
+      }
+})
 module.exports = router;
