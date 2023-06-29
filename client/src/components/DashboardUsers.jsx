@@ -2,15 +2,30 @@ import React, { useState } from 'react'
 import { useStateValue } from '../context/StateProvider';
 import {motion} from "framer-motion";
 import moment from 'moment/moment';
+import { changingUserRole, getAllUsers } from '../api';
+import {actionType} from "../context/reducer"
 
 export const DashboardUserCard = ({data, index}) =>{
   
-  const [{user}, dispatch] = useStateValue();
+  const [{user, allUsers}, dispatch] = useStateValue();
   const [isUserRoleUpdated, setisUserRoleUpdated] = useState(false);
   const createdAt = moment(new Date(data.createdAt)).format("MMMM Do YYYY");
+  const updateUserRole = (userId,role ) =>{
+    setisUserRoleUpdated(false);
+    changingUserRole(userId, role).then((res) =>{
+      if (res){
+        getAllUsers().then((data) =>{
+          dispatch({
+            type: actionType.SET_ALL_USERS,
+            allUsers: data.data
+          })
+        })
+      }
+    })
+  }
   
   return(
-    <motion.div
+    <motion.div key={index}
     className= 'relative w-full rounded-md flex items-center justify-between py-4 bg-lightOverlay cursor-pointer hover:shadow-md'>
 
       {/* user image */}
@@ -46,7 +61,8 @@ export const DashboardUserCard = ({data, index}) =>{
           </p>
 
           <div className='flex items-center gap-4'>
-            <motion.button whileTap={{scale : 0.75}} className='outline-none border-none text-sm px-4 py-1 rounded-md bg-blue-200 text-black hover:shadow-md'>
+            <motion.button whileTap={{scale : 0.75}} className='outline-none border-none text-sm px-4 py-1 rounded-md bg-blue-200 text-black hover:shadow-md'
+            onClick={() =>updateUserRole(data._id, data.role =="admin"? "member": "admin")}>
               Yes
             </motion.button>
 
