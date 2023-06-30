@@ -5,6 +5,7 @@ import { IoAdd, IoPause, IoPlay, IoTrash } from "react-icons/io5";
 import { AiOutlineClear } from "react-icons/ai";
 import {actionType} from "../context/reducer"
 import { getAllSongs } from '../api';
+import SongCard from './SongCard';
 
 const DashboardSongs = () => {
   const [songFilter, setsongFilter] = useState("");
@@ -59,15 +60,27 @@ const DashboardSongs = () => {
               Count :{" "}
             </span>
             {allSongs?.length}
-            {/* {filteredSongs ? filteredSongs?.length : allSongs?.length} */}
           </p>
           </div>
           
+          <SongContainer  data={allSongs}/>
 
       </div>
     </div>
   )
 };
 
+export const SongContainer = ({ data }) => {
+  return (
+    <div className=" w-full flex flex-wrap gap-3  items-center justify-evenly">
+      {data &&
+        data.map((song, i) => (
+          <SongCard
+          key={song._id} data={song} index={i} 
+          />
+        ))}
+    </div>
+  );
+};
 
-export default DashboardSongs
+export default DashboardSongs;
