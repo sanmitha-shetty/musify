@@ -31,12 +31,26 @@ import { filterByLanguage, filters } from "../utilis/supportfunctions";
 
 const DashboardNewSong = () => {
     const [songName, setsongName] = useState("");
-    const [songImageCover, setsongImageCover] = useState(null)
+
+    const [songImageCover, setsongImageCover] = useState(null);
     const [isImageLoading, setisImageLoading] = useState(false);
     const [imageUploadProgress, setimageUploadProgress] = useState(0);
+
     const [audioImageCover, setaudioImageCover] = useState(null);
     const [audioUploadingProgress, setaudioUploadingProgress] = useState(0);
     const [isAudioLoading, setisAudioLoading] = useState(false);
+
+    const [artistImageCover, setartistImageCover] = useState(null);
+    const [artistUploadingProgress, setartistUploadingProgress] = useState(0);
+    const [isArtistUploading, setisArtistUploading] = useState(false);
+    const [artistName, setartistName] = useState("");
+    const [twitter, settwitter] = useState("");
+    const [instagram, setinstagram] = useState("");
+
+    const [albumImageCover, setalbumImageCover] = useState(null);
+    const [albumUploadingProgress, setalbumUploadingProgress] = useState(0);
+    const [isAlbumUploading, setisAlbumUploading] = useState(false);
+    const [albumName, setalbumName] = useState("");
 
     const [{allArtists, allAlbums,allSongs, artistFilter, albumFilter, filterTerm, languageFilter}, dispatch] = useStateValue();
 
@@ -61,13 +75,16 @@ const DashboardNewSong = () => {
     if(isImage){
       setisImageLoading(true);
       setisAudioLoading(true);
+      setisArtistUploading(true);
     }
     const deleteRef =ref(storage, url);
     deleteObject(deleteRef).then(() =>{
       setsongImageCover(null);
       setaudioImageCover(null);
+      setartistImageCover(null);
       setisImageLoading(false);
       setisAudioLoading(false);
+      setisArtistUploading(false);
     })
   };
 
@@ -110,83 +127,204 @@ const DashboardNewSong = () => {
     }
   }
 
-  return (
-    <div className="flex  flex-col items-center justify-center p-4 border border-gray-300 rounded-md gap-4"> 
-      <input type="text"
-              placeholder="Type your song name.."
-              className="w-full p-3 rounded-md text-base font-semibold text-textColor outline-none shadow-sm border border-gray-300 bg-transparent"
-              value={songName}
-              onChange={(e) => setsongName(e.target.value)}
-      />
+  const saveArtist =() => {
+    if(!artistImageCover || !artistName || !instagram ||!twitter){
+      //Throw an alert
+    }
+    else{
+      setisArtistUploading(true);
+      const data ={
+        name: artistName,
+        imageURL: artistImageCover,
+        twitter: `www.twitter.com/${twitter}`,
+        instagram: `www.instagram.com/${instagram}`,
+      }
+      saveNewArtist(data).then(res =>{
+        getAllArtists().then ((data) => {
+          dispatch({
+            type: actionType.SET_ALL_ARTISTS,
+            allArtists: data.artist
+          })
+        })
+      });
+      setisArtistUploading(false);
+      setartistImageCover(null);
+      setartistName("");
+      settwitter("");
+      setinstagram("");
+    }
+  }
 
-      <div className="flex w-full justify-between flex-wrap items-center gap-4">
-          <FilterButtons filterData ={allArtists} flag={"Artist"}/>
-          <FilterButtons filterData ={allAlbums} flag={"Albums"}/>
-          <FilterButtons filterData ={filterByLanguage } flag={"Language"}/>
-          <FilterButtons filterData ={filters} flag={"Category"}/>
+  return (
+    <div className="w-full h-full  flex flex-row">
+
+      <div className="flex w-2/4  flex-col items-center justify-center p-4 border border-pink-300 rounded-md gap-4"> 
+        <input type="text"
+                placeholder="Type your song name.."
+                className="w-full p-3 rounded-md text-base font-semibold text-textColor outline-none shadow-sm border border-gray-300 bg-transparent"
+                value={songName}
+                onChange={(e) => setsongName(e.target.value)}
+        />
+
+        <div className="flex w-full justify-between flex-wrap items-center gap-4">
+            <FilterButtons filterData ={allArtists} flag={"Artist"}/>
+            <FilterButtons filterData ={allAlbums} flag={"Albums"}/>
+            <FilterButtons filterData ={filterByLanguage } flag={"Language"}/>
+            <FilterButtons filterData ={filters} flag={"Category"}/>
 
         </div>
 
+        <div className="relative w-full h-full flex flex-row gap-1 ">
 
-      <div className="bg-card backdrop-blur-md w-full h-300 rounded-md border-2 border-dotted border-gray-300 cursor-pointer"> 
-        {isImageLoading && <FileLoader progress ={imageUploadProgress} />}
-        {!isImageLoading && (
-          <>
-            {!songImageCover ? (
-              <FileUploader 
-              updateState ={setsongImageCover} setProgress = {setimageUploadProgress} isLoading ={setisImageLoading} 
-              is isImage={true}/>
-            ) : (
-                <div className="relative w-full h-full overflow-hidden rounded-md">
-                  <img src={songImageCover} className="w-full h-full object-cover" alt=""/>
-                  <button type="button" className=" absolute bottom-3 right-3 p-3 rounded-full bg-red-500 text-xl cursor-pointer outline-none border-none hover:shadow-md duration-200 transition-all ease-in-out" 
-                  onClick={() => deleteFileObject(songImageCover, true)}>
-                    <MdDelete className="text-white"/>
-                  </button>
-                </div>
-            )}
-          </>
-        )}
+              {/* Song Cover Uploading */}
+              <div className="bg-card backdrop-blur-md w-full h-300 rounded-md border-2 border-dotted border-gray-300 cursor-pointer"> 
+                {isImageLoading && <FileLoader progress ={imageUploadProgress} />}
+                {!isImageLoading && (
+                <>
+                  {!songImageCover ? (
+                    <FileUploader 
+                    updateState ={setsongImageCover} setProgress = {setimageUploadProgress} isLoading ={setisImageLoading} 
+                    is isImage={true}/>
+                  ) : (
+                      <div className="relative w-full h-full overflow-hidden rounded-md">
+                        <img src={songImageCover} className="w-full h-full object-cover" alt=""/>
+                        <button type="button" className=" absolute bottom-3 right-3 p-3 rounded-full bg-red-500 text-xl cursor-pointer outline-none border-none hover:shadow-md duration-200 transition-all ease-in-out" 
+                        onClick={() => deleteFileObject(songImageCover, true)}>
+                          <MdDelete className="text-white"/>
+                        </button>
+                      </div>
+                  )}
+                </>
+                )}
 
+              </div>
+              
+              {/* Audio File  Uploading */}
+
+              <div className="bg-card backdrop-blur-md w-full h-300 rounded-md border-2 border-dotted border-gray-300 cursor-pointer"> 
+                {isAudioLoading && <FileLoader progress ={audioUploadingProgress} />}
+                {!isAudioLoading && (
+                  <>
+                    {!audioImageCover ? (
+                      <FileUploader 
+                      updateState ={setaudioImageCover} setProgress = {setaudioUploadingProgress} 
+                      isLoading ={setisAudioLoading} 
+                      isImage={false}/>
+                    ) : (
+                        <div className="relative w-full h-full flex items-center justify-center overflow-hidden rounded-md">
+                          <audio src={audioImageCover} controls></audio>
+                          <button type="button" className=" absolute bottom-3 right-3 p-3 rounded-full bg-red-500 text-xl cursor-pointer outline-none border-none hover:shadow-md duration-200 transition-all ease-in-out" 
+                          onClick={() => deleteFileObject(audioImageCover, false)}>
+                            <MdDelete className="text-white"/>
+                          </button>
+                        </div>
+                    )}
+                  </>
+                )}
+
+              </div>
       </div>
 
-      {/* Audio File  Uploading */}
-
-      <div className="bg-card backdrop-blur-md w-full h-300 rounded-md border-2 border-dotted border-gray-300 cursor-pointer"> 
-        {isAudioLoading && <FileLoader progress ={audioUploadingProgress} />}
-        {!isAudioLoading && (
-          <>
-            {!audioImageCover ? (
-              <FileUploader 
-              updateState ={setaudioImageCover} setProgress = {setaudioUploadingProgress} 
-              isLoading ={setisAudioLoading} 
-              isImage={false}/>
-            ) : (
-                <div className="relative w-full h-full flex items-center justify-center overflow-hidden rounded-md">
-                  <audio src={audioImageCover} controls></audio>
-                  <button type="button" className=" absolute bottom-3 right-3 p-3 rounded-full bg-red-500 text-xl cursor-pointer outline-none border-none hover:shadow-md duration-200 transition-all ease-in-out" 
-                  onClick={() => deleteFileObject(audioImageCover, false)}>
-                    <MdDelete className="text-white"/>
-                  </button>
-                </div>
-            )}
-          </>
-        )}
-
-      </div>
-
-      <div className="flex items-center justify-center w-50 p-4 cursor-pointer ">
-      {isImageLoading || isAudioLoading? (
-          <DisabledButton />
-        ) : (
-          <motion.button whileTap={{ scale: 0.75 }}
-          className="px-8 py-2 rounded-md text-white bg-red-600 hover:shadow-lg" onClick={saveSong}>
-            Save Song
-          </motion.button>
-        )}  
-      </div>
+      
+                
+        {/* Save and Loading buttons */}
+        <div className="flex items-center justify-center w-50 p-4 cursor-pointer ">
+        {isImageLoading || isAudioLoading? (
+            <DisabledButton />
+          ) : (
+            <motion.button whileTap={{ scale: 0.75 }}
+            className="px-8 py-2 rounded-md text-white bg-red-600 hover:shadow-lg" onClick={saveSong}>
+              Save Song
+            </motion.button>
+          )}  
+        </div>
             
-    </div>
+      </div>
+
+      {/* Right Section */}
+      <div className=" flex w-2/4  flex-col items-center justify-center p-4 border border-blue-300 rounded-md gap-4">
+          <p className="text-xl font-semibold text-headingColor">Artist Details</p>
+        <div className=" w-full flex flex-row gap-4">
+            {/* Image Uploader for artist */}
+            
+            <div className="bg-card backdrop-blur-md w-full h-300 rounded-md border-2 border-dotted border-gray-300 cursor-pointer"> 
+                {isArtistUploading && <FileLoader progress ={artistUploadingProgress} />}
+                {!isArtistUploading && (
+                <>
+                  {!artistImageCover ? (
+                    <FileUploader 
+                    updateState ={setartistImageCover} setProgress = {setartistUploadingProgress} isLoading ={setisArtistUploading} 
+                     isImage={true}/>
+                  ) : (
+                      <div className="relative w-full h-full overflow-hidden rounded-md">
+                        <img src={artistImageCover} className="w-full h-full object-cover" alt=""/>
+                        <button type="button" className=" absolute bottom-3 right-3 p-3 rounded-full bg-red-500 text-xl cursor-pointer outline-none border-none hover:shadow-md duration-200 transition-all ease-in-out" 
+                        onClick={() => deleteFileObject(artistImageCover, true)}>
+                          <MdDelete className="text-white"/>
+                        </button>
+                      </div>
+                  )}
+                </>
+                )}
+
+            </div>
+            <div className="flex flex-col">
+                    {/* Artist Name */}
+            <input type="text"
+                placeholder="Artist name.."
+                className="w-full p-3 rounded-md text-base font-semibold text-textColor outline-none shadow-sm border border-gray-300 bg-transparent"
+                value={artistName}
+                onChange={(e) => setartistName(e.target.value)}
+              />
+
+              {/* Twitter */}
+              <div 
+                className="w-full lg:w-300 p-3 flex items-center     rounded-md  shadow-sm border border-gray-300">
+                <p className="text-base font-semibold text-gray-400">
+                  www.twitter.com/
+                </p>
+                <input
+                  type="text"
+                  placeholder="your id"
+                  className="w-full text-base font-semibold text-textColor outline-none bg-transparent"
+                  value={twitter}
+                  onChange={(e) => settwitter(e.target.value)}
+                />
+            </div>
+
+              {/* Instagram */}
+              <div 
+                className="w-full lg:w-300 p-3 flex items-center     rounded-md  shadow-sm border border-gray-300">
+                <p className="text-base font-semibold text-gray-400">
+                  www.instagram.com/
+                </p>
+                <input
+                  type="text"
+                  placeholder="your id"
+                  className="w-full text-base font-semibold text-textColor outline-none bg-transparent"
+                  value={instagram}
+                  onChange={(e) => setinstagram(e.target.value)}
+                />
+            </div>
+            {/* Save and Loading buttons */}
+            <div className="flex items-center justify-center w-50 p-4 cursor-pointer ">
+            {isArtistUploading ? (
+                <DisabledButton />
+              ) : (
+                <motion.button whileTap={{ scale: 0.75 }}
+                className="px-8 py-2 rounded-md text-white bg-red-600 hover:shadow-lg" onClick={saveArtist}>
+                  Save Artist
+                </motion.button>
+              )}  
+            </div>
+            </div>
+        </div>
+        
+            
+      </div>
+
+  </div>
+
   )
 };
 
@@ -276,7 +414,7 @@ export const FileUploader =({updateState, setProgress, isLoading, isImage}) =>{
           <p className="font-bold text-2xl">
             <BiCloudUpload />
           </p>
-          <p className="text-lg">Click To Upload {isImage ? "a song cover" : "an audio"}</p>
+          <p className="text-lg">Click To Upload {isImage ? "an image" : "an audio"}</p>
         </div>
       </div>
       <input type="file" name="upload-file" 
