@@ -31,6 +31,10 @@ import { filterByLanguage, filters } from "../utilis/supportfunctions";
 
 const DashboardNewSong = () => {
     const [songName, setsongName] = useState("");
+    const [songImageCover, setsongImageCover] = useState(null)
+    const [isImageLoading, setisImageLoading] = useState(false);
+    const [imageUploadProgress, setimageUploadProgress] = useState(0)
+
     const [{allArtists, allAlbums}, dispatch] = useStateValue();
 
     useEffect(() => {
@@ -53,21 +57,56 @@ const DashboardNewSong = () => {
 
   return (
     <div className="flex flex-col items-center justify-center p-4 border border-gray-300 rounded-md gap-4"> 
-    <input type="text"
-            placeholder="Type your song name.."
-            className="w-full p-3 rounded-md text-base font-semibold text-textColor outline-none shadow-sm border border-gray-300 bg-transparent"
-            value={songName}
-            onChange={(e) => setsongName(e.target.value)}
-    />
+      <input type="text"
+              placeholder="Type your song name.."
+              className="w-full p-3 rounded-md text-base font-semibold text-textColor outline-none shadow-sm border border-gray-300 bg-transparent"
+              value={songName}
+              onChange={(e) => setsongName(e.target.value)}
+      />
 
-    <div className="flex w-full justify-between flex-wrap items-center gap-4">
-        <FilterButtons filterData ={allArtists} flag={"Artist"}/>
-        <FilterButtons filterData ={allAlbums} flag={"Albums"}/>
-        <FilterButtons filterData ={filterByLanguage } flag={"Language"}/>
-        <FilterButtons filterData ={filters} flag={"Category"}/>
-    </div>
+      <div className="flex w-full justify-between flex-wrap items-center gap-4">
+          <FilterButtons filterData ={allArtists} flag={"Artist"}/>
+          <FilterButtons filterData ={allAlbums} flag={"Albums"}/>
+          <FilterButtons filterData ={filterByLanguage } flag={"Language"}/>
+          <FilterButtons filterData ={filters} flag={"Category"}/>
+
+        </div>
+
+
+      <div className="bg-card backdrop-blur-md w-full h-300 rounded-md border-2 border-dotted border-gray-300 cursor-pointer"> 
+        {isImageLoading && <FileLoader progress ={imageUploadProgress} />}
+        {!isImageLoading && (
+          <>
+            {!songImageCover ? (
+              <FileUploader updateState ={setsongImageCover} setProgress = {setimageUploadProgress} />
+            ) : (
+                <div></div>
+            )}
+          </>
+        )}
+
+      </div>
+
     </div>
   )
+}
+
+export const FileLoader =({progress}) =>{
+  return(
+    <div className="w-full h-full flex flex-col items-center justify-center">
+      <p className="text-xl font-semibold text-textColor">
+        {Math.round(progress) > 0 && 
+        <>{`${Math.round(progress)}%`}</>}
+      </p>
+      <div className="w-20 h-20 min-w-[40px] bg-red-600  animate-ping  rounded-full flex items-center justify-center relative">
+        <div className="absolute inset-0 rounded-full bg-red-600 blur-xl "></div>
+      </div>
+    </div>
+  )
+}
+
+export const FileUploader =({}) =>{
+  return <div></div>
 }
 
 export default DashboardNewSong
