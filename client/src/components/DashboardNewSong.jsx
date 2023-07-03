@@ -175,7 +175,16 @@ const DashboardNewSong = () => {
 
       </div>
 
-      
+      <div className="flex items-center justify-center w-50 p-4 cursor-pointer ">
+      {isImageLoading || isAudioLoading? (
+          <DisabledButton />
+        ) : (
+          <motion.button whileTap={{ scale: 0.75 }}
+          className="px-8 py-2 rounded-md text-white bg-red-600 hover:shadow-lg" onClick={saveSong}>
+            Save Song
+          </motion.button>
+        )}  
+      </div>
             
     </div>
   )
