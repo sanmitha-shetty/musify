@@ -51,7 +51,7 @@ const DashboardSongs = () => {
       </div>
       {/* Main container */}
       <div className="relative w-full  my-4 p-4 
-      py-12 border border-gray-300 rounded-md">
+      py-16 border border-gray-300 rounded-md">
 
           {/* The count */}
           <div className="absolute top-4 left-4">
