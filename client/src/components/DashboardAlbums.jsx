@@ -35,7 +35,7 @@ export const AlbumContainer = ({ data }) => {
       {data &&
         data.map((song, i) => (
           <SongCard
-          key={song._id} data={song} index={i} 
+          key={song._id} data={song} index={i} type="album" 
           />
         ))}
     </div>

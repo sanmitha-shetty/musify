@@ -89,7 +89,7 @@ const DashboardNewSong = () => {
       setisAudioLoading(false);
       setisArtistUploading(false);
       setisAlbumUploading(false);
-    })
+    });
 
     dispatch({
       type: actionType.SET_ALERT_TYPE,
