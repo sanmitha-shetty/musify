@@ -12,6 +12,10 @@ export const actionType = {
     
     //Alert
     SET_ALERT_TYPE: "SET_ALERT_TYPE",
+
+    //Song Player
+    SET_ISSONG_PLAYING : "SET_ISSONG_PLAYING",
+    SET_SONG_INDEX : "SET_SONG_INDEX",
 }
 
 const reducer = (state, action) => {
@@ -78,6 +82,18 @@ const reducer = (state, action) => {
           return {
             ...state,
             alertType: action.alertType,
+          };
+
+        case actionType.SET_ISSONG_PLAYING:
+          return {
+            ...state,
+            isSongPlaying: action.isSongPlaying,
+          };
+
+        case actionType.SET_SONG_INDEX:
+          return {
+            ...state,
+            songIndex: action.songIndex,
           };
         default: 
           return state;

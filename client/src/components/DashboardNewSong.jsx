@@ -25,8 +25,7 @@ import {
 import { actionType } from "../context/reducer";
 import FilterButtons from "./FilterButtons";
 import { filterByLanguage, filters } from "../utilis/supportfunctions";
-/* import AlertSuccess from "./AlertSuccess"; */
-/* import AlertError from "./AlertError"; */
+
 
 
 const DashboardNewSong = () => {

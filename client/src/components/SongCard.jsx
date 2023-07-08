@@ -9,7 +9,7 @@ import { deleteObject, ref } from 'firebase/storage';
 
 const SongCard = ({data, index, type}) => {
   const [isDelete, setisDelete] = useState(false);
-  const [{alertType, allSongs, allArtists, allAlbums}, dispatch] = useStateValue();
+  const [{alertType, allSongs, allArtists, allAlbums, isSongPlaying, songIndex}, dispatch] = useStateValue();
 
   
    const deleteData = (data) => {
@@ -54,12 +54,27 @@ const SongCard = ({data, index, type}) => {
       });
     };
 
+  const addToContext  = () =>{
+    if(!isSongPlaying){
+      dispatch({
+        type: actionType.SET_ISSONG_PLAYING,
+        isSongPlaying: true,
+      })
+    }
+    if(songIndex !== index){
+      dispatch({
+        type: actionType.SET_SONG_INDEX,
+        songIndex: index,
+      })
+    }
+  }
 
       
    
   return (
     <motion.div  
     className="relative w-40 min-w-210 px-2 py-4 cursor-pointer hover:shadow-xl hover:bg-card bg-gray-100 shadow-md rounded-lg flex flex-col items-center"
+    onClick={type === 'song' && addToContext}
     >
         <div className="w-40 min-w-[160px] h-40 min-h-[160px] rounded-lg drop-shadow-lg relative overflow-hidden">
         <motion.img
