@@ -29,7 +29,7 @@ const Header = () => {
         <img src={Logo} alt="Logo" className=" w-56" />
       </NavLink>
 
-      <ul className="flex items-center justify-center ml-7">
+      <ul className="flex  items-center justify-center gap-10 m-auto">
         <li className="mx-5 text-lg">
           <NavLink
             to={"/home"}
@@ -67,7 +67,7 @@ const Header = () => {
               isActive ? isActiveStyles : isNotActiveStyles
             }
           >
-            Music
+            About Us
           </NavLink>{" "}
         </li>
       </ul>
@@ -75,7 +75,7 @@ const Header = () => {
       <div
         onMouseEnter={() => setisMenu(true)}
         onMouseLeave={() => setisMenu(false)}
-        className="flex items-center ml-auto cursor-pointer gap-2 relative "
+        className="flex items-center ml-2 cursor-pointer gap-2 relative "
       >
         <img
           src={user?.user.imageURL}
