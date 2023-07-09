@@ -41,11 +41,12 @@ const Home = () => {
   //Search term
   useEffect(() => {
     if (searchTerm.length > 0) {
+      console.log("Sanmitha");
       const filtered = allSongs.filter(
         (data) =>
-          data.artist.toLowerCase().includes(searchTerm) ||
-          data.language.toLowerCase().includes(searchTerm) ||
-          data.name.toLowerCase().includes(searchTerm) ||
+          data.artist.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          data.language.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          data.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
           data.artist.includes(artistFilter)
       );
       setFilteredSongs(filtered);
