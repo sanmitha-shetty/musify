@@ -4,6 +4,7 @@ export const actionType = {
     SET_ALL_SONGS : "SET_ALL_SONGS",
     SET_ALL_ARTISTS: "SET_ALL_ARTISTS",
     SET_ALL_ALBUMS: "SET_ALL_ALBUMS",
+
     //filters
     SET_FILTER_TERM: "SET_FILTER_TERM",
     SET_ARTIST_FILTER: "SET_ARTIST_FILTER",
@@ -16,6 +17,9 @@ export const actionType = {
     //Song Player
     SET_ISSONG_PLAYING : "SET_ISSONG_PLAYING",
     SET_SONG_INDEX : "SET_SONG_INDEX",
+
+    //Search Bar
+    SET_SEARCH_TERM: "SET_SEARCH_TERM",
 }
 
 const reducer = (state, action) => {
@@ -95,6 +99,14 @@ const reducer = (state, action) => {
             ...state,
             songIndex: action.songIndex,
           };
+        
+        //Search Bar
+        case actionType.SET_SEARCH_TERM:
+          return {
+            ...state,
+            searchTerm: action.searchTerm,
+          };
+          
         default: 
           return state;
     }
