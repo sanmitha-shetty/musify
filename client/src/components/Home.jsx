@@ -3,10 +3,11 @@ import { getAllSongs } from "../api";
 import { actionType } from "../context/reducer";
 import { useStateValue } from "../context/StateProvider";
 import { SongCard } from "./DashboardSongs";
-//import Filter from "./Filter";
+import Filter from "./Filter";
 import Header from "./Header";
 import SearchBar from "./SearchBar";
 import { motion } from "framer-motion";
+import FilterButtons from "./FilterButtons";
 
 const Home = () => {
   const [
@@ -111,7 +112,7 @@ const Home = () => {
         </p>
       )}
 
-      {/* <Filter setFilteredSongs={setFilteredSongs} /> */}
+      <Filter setFilteredSongs={setFilteredSongs} />
       <div className="w-full h-auto flex items-center justify-evenly gap-4 flex-wrap p-4">
         <HomeSongContainer musics={filteredSongs ? filteredSongs : allSongs} />
       </div>
