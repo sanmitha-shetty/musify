@@ -40,7 +40,7 @@ const Header = () => {
             Home
           </NavLink>{" "}
         </li>
-        <li className="mx-5 text-lg">
+        {/* <li className="mx-5 text-lg">
           <NavLink
             to={"/premium"}
             className={({ isActive }) =>
@@ -49,7 +49,7 @@ const Header = () => {
           >
             Premium
           </NavLink>{" "}
-        </li>
+        </li> */}
         <li className="mx-5 text-lg">
           <NavLink
             to={"/contact"}
@@ -105,9 +105,9 @@ const Header = () => {
                 Profile
               </p>
             </NavLink>
-            <p className="text-base text-textColor hover:font-semibold duration-150 transition-all ease-in-out">
+            {/* <p className="text-base text-textColor hover:font-semibold duration-150 transition-all ease-in-out">
               My Favourites
-            </p>
+            </p> */}
 
             <hr />
 
