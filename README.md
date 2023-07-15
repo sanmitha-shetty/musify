@@ -32,7 +32,7 @@
     <img src= "readme_images/logo.png" alt="Logo" width="288" height="90">
   </a>
 
-<h3 align="center">Musify</h3>
+<h3 align="center">MUSIFY</h3>
 
   <p align= "justify" >
         Musify is an exceptional online music streaming website that offers a seamless and immersive music experience to its users. Developed using the powerful MERN Stack (MongoDB, Express.js, React.js, Node.js), along with the sleek and responsive Tailwind CSS framework, Musify combines the latest technologies to create a robust and user-friendly platform.
@@ -44,7 +44,10 @@
         Musify provides an extensive library of songs spanning various genres, allowing users to explore and discover their favorite music. The website's intuitive interface and smart search functionality make it effortless to find specific songs, artists, or albums, ensuring a hassle-free navigation experience.
         <br />
         <br />
-        <a  align = "center" href="https://musify-songs-app.vercel.app/">Click Here to View Demo</a>
+    <p align = "center">
+      <a   href="https://musify-songs-app.vercel.app/">Click Here to View Demo</a>
+    </p>
+        
   </p>
 </div>
 
@@ -240,12 +243,12 @@ Project Link: [https://github.com/sanmitha-shetty/musify](https://github.com/san
 [license-url]: https://github.com/sanmitha-shetty/musify/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://www.linkedin.com/in/sanmithashetty07/
-[product-screenshot]: readme-images/screen.png
-[product-screenshot2]: readme-images/player.png
-[product-screenshot3]: readme-images/search.png
-[product-screenshot4]: readme-images/login.png
-[product-screenshot5]: readme-images/auth.png
-[product-screenshot6]: readme-images/admin.png
-[product-screenshot7]: readme-images/user.png
-[product-screenshot8]: readme-images/manage.png
-[product-screenshot9]: readme-images/addsong.png
+[product-screenshot]: readme_images/screen.png
+[product-screenshot2]: readme_images/player.png
+[product-screenshot3]: readme_images/search.png
+[product-screenshot4]: readme_images/login.png
+[product-screenshot5]: readme_images/auth.png
+[product-screenshot6]: readme_images/admin.png
+[product-screenshot7]: readme_images/user.png
+[product-screenshot8]: readme_images/manage.png
+[product-screenshot9]: readme_images/addsong.png
